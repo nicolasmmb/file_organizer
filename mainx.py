@@ -3,37 +3,35 @@ clear = lambda: os.system('cls')
 pause = lambda: os.system('pause')
 
 
-clear()
-diretorio_atual = input('COLOQUE O LINK DA PASTA PARA SER ORGANIZADA: ')
-print('')
 
 
 EXTENCOES_DICIONARIO = {
-    'IMAGENS':      ['.jpg','.png','.gif','.ico','.psd','.webp','.raw','.jpeg','.lif','.bmp','.tif','.svg','.ai','.JPG','.PNG','.GIF','.ICO','.PSD','.WEBP','.RAW','.JPEG','.LIF','.BMP','.TIF','.SVG','.AI'],
-    'VIDEOS':       ['.mp4','.mkv','.avi','.3gp','.webm','.mpeg','.wmv','.mov','.flv','.MP4','.MKV','.AVI','.3GP','.WEBM','.MPEG','.WMV','.MOV','.FLV'],
-    'AUDIO':        ['.mp3','.flac','.m4a','.wav','.aac','.MP3','.FLAC','.M4A','.WAV','.AAC'],
-    'OFFICE_EXCEL': ['.xls','.xlsx','.xlsm','.xlsb','.xltx','.xltm','.xla','.xlam','.XLS','.XLSX','.XLSM','.XLSB','.XLTX','.XLTM','.XLA','.XLAM'],
-    'OFFICE_WORD':  ['.doc','.docx','.docm','.dotx','.dot','.dotm','.pdf','.DOC','.DOCX','.DOCM','.DOTX','.DOT','.DOTM','.PDF'],
-    'OFFICE_POWER': ['.pptx','.pptm','.ppt','.potx','.potm','.pot','.thmx','.ppsx','.ppsm','.pps','.odp','.PPTX','.PPTM','.PPT','.POTX','.POTM','.POT','.THMX','.PPSX','.PPSM','.PPS','.ODP'],
-    'COMPRESSED':   ['.iso','.zip','.rar','.7z','.tgz','.tar','.bz','.ISO','.ZIP','.RAR','.7Z','.TGZ','.TAR','.BZ'],
-    'DEVELOPMENT':  ['.py','.c','.cpp','.dart','.js','.bat','.sh','.PY','.C','.CPP','.DART','.JS','.BAT','.SH'],
-    'PROGRAMAS':    ['.exe','.msi','.EXE','.MSI'],
-    'OUTROS':       ['.csv','.CSV','.sql','.SQL']}
+    'IMAGENS':      ['.jpg','.png','.gif','.ico','.psd','.webp','.raw','.jpeg','.lif','.bmp','.tif','.svg','.ai','.webp'],
+    'VIDEOS':       ['.mp4','.mkv','.avi','.3gp','.webm','.mpeg','.wmv','.mov','.flv'],
+    'AUDIO':        ['.mp3','.flac','.m4a','.wav','.aac'],
+    'OFFICE_EXCEL': ['.xls','.xlsx','.xlsm','.xlsb','.xltx','.xltm','.xla','.xlam'],
+    'OFFICE_WORD':  ['.doc','.docx','.docm','.dotx','.dot','.dotm'],
+    'OFFICE_POWER': ['.pptx','.pptm','.ppt','.potx','.potm','.pot','.thmx','.ppsx','.ppsm','.pps','.odp'],
+    'COMPRESSED':   ['.iso','.zip','.rar','.7z','.tgz','.tar','.bz'],
+    'DEVELOPMENT':  ['.py','.c','.cpp','.dart','.js','.bat','.sh'],
+    'PROGRAMAS':    ['.exe','.msi'],
+    'OUTROS':       ['.csv','.sql','.ini','.lnk','.url','.txt','.torrent','.md'],
+    'PDFs':         ['.pdf']}
 
-def CRIAR_DIRETORIOS(nome_pasta):
+def CRIAR_DIRETORIOS(diretorio, nome_pasta):
     try:
         if nome_pasta == "":
-            print('>>> NÃO É POSSIVEL CRIAR PASTAS SEM NOME <<<')
+            print('>>>: NÃO É POSSIVEL CRIAR PASTAS SEM NOME <<<')
         else:
-            os.makedirs(f'{diretorio_atual}\{nome_pasta}') #exist_ok = true
-            print(f'>>> DIRETORIO CRIADO COM SUCESSO >>> "{nome_pasta}"')
+            os.makedirs(f'{diretorio}\{nome_pasta}') #exist_ok = true
+            print(f'>>>: DIRETORIO CRIADO COM SUCESSO       >>> "{nome_pasta}"')
     
 
     except(OSError, FileExistsError):
-        if os.path.isdir(diretorio_atual):
-            print(f'>>> O DIRETORIO JÁ EXISTE: "{diretorio_atual}\{nome_pasta}"')
+        if os.path.isdir(diretorio):
+            print(f'>>>: O DIRETORIO JÁ EXISTE:             >>>" {diretorio}\{nome_pasta}"')
         else:
-            print(f'>>> NÃO FOI POSSIVEL CRIAR O DIRETORIO >>> "{nome_pasta}"')
+            print(f'>>>: NÃO FOI POSSIVEL CRIAR O DIRETORIO >>> "{nome_pasta}"')
         pass
 
     finally:
@@ -50,24 +48,31 @@ def REMOVER_DIRETORIO_VAZIO(diretorio):
         try:
             os.rmdir(f'{diretorio}\{PASTAS_LISTA[i]}')
         except:
-            print(f'A PASTA NÃO ESTA VAZIA, OU NÃO PODE SER MODIFICADA: {diretorio}\{PASTAS_LISTA[i]}')
+            print(f'>>>: A PASTA NÃO ESTA VAZIA, OU NÃO PODE SER MODIFICADA: {diretorio}\{PASTAS_LISTA[i]}')
             i+1
 
-def ORGANIZA_PASTA(lista_extensoes, nome_pasta):
-    for dados in os.listdir(diretorio_atual):
-        filename, file_ext = os.path.splitext(dados) 
+def ORGANIZA_PASTA(diretorio, lista_extensoes, nome_pasta):
+    for dados in os.listdir(diretorio):
+        filename, file_ext = os.path.splitext(dados.lower()) 
         try:
             if not file_ext:
                 pass
             elif file_ext in lista_extensoes:
                 shutil.move(
-                    os.path.join(diretorio_atual, f'{filename}{file_ext}'),
-                    os.path.join(diretorio_atual, nome_pasta, f'{filename}{file_ext}'))
+                    os.path.join(diretorio, f'{filename}{file_ext}'),
+                    os.path.join(diretorio, nome_pasta, f'{filename}{file_ext}'))
         finally:
             pass
 
 def PRINT_LAYER():
-    print('=========================================================================================================')
+    print('=-='*40)
+
+def PRINT_INFO():
+    print('=  1: OBSERVAÇÕES: O PROGRAMA RODA EM MODO DE COMPATIBILIDADE, SENDO ASSIM, TODOS OS ARQUIVOS IRÃO SER MOVIDOS COM\n=     SEUS RESPECTIVOS NOMES EM "CAIXA BAIXA"(EM MINUSCULO). \n=')
+    print('=  2: OBSERVAÇÕES: NÃO SERA POSSÍVEL REVERTER AS ALTERAÇÕES APOS A EXECUÇÃO DO PROGRAMA\n=')
+    print('=  3: OBSERVAÇÕES: USE COM CAUTELA, DE PREFERÊNCIA EM PASTAS QUE VOCE SAIBA QUE NÃO TENHA INFORMACOES IMPORTANTES')
+    PRINT_LAYER()
+    print('\n')
 
 def MODULES_INSTALL():
     try:
@@ -77,11 +82,18 @@ def MODULES_INSTALL():
 
 def EXEC_PROGRAMA():
     #MODULES_INSTALL()
+
+    clear()
+    PRINT_LAYER()
+    PRINT_INFO()
+
+    diretorio_atual = input('>>> COLOQUE O DIRETORIO DA PASTA PARA SER ORGANIZADA: ')
     PRINT_LAYER()
 
     for i in EXTENCOES_DICIONARIO:
-        CRIAR_DIRETORIOS(i)
-        ORGANIZA_PASTA(EXTENCOES_DICIONARIO[i],i)
+        CRIAR_DIRETORIOS(diretorio_atual,i)
+        ORGANIZA_PASTA(diretorio_atual,EXTENCOES_DICIONARIO[i],i)
+        #ORGANIZA_PASTA(diretorio_atual,EXTENCOES_DICIONARIO[i],i)
 
     PRINT_LAYER()
     time.sleep(1)
@@ -93,7 +105,3 @@ def EXEC_PROGRAMA():
 
 EXEC_PROGRAMA()
 pause()
-
-
-
-
