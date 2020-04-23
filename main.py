@@ -3,8 +3,6 @@ clear = lambda: os.system('cls')
 pause = lambda: os.system('pause')
 
 
-
-
 EXTENCOES_DICIONARIO = {
     'IMAGENS':      ['.jpg','.png','.gif','.ico','.psd','.webp','.raw','.jpeg','.lif','.bmp','.tif','.svg','.ai','.webp'],
     'VIDEOS':       ['.mp4','.mkv','.avi','.3gp','.webm','.mpeg','.wmv','.mov','.flv'],
@@ -18,6 +16,7 @@ EXTENCOES_DICIONARIO = {
     'OUTROS':       ['.csv','.sql','.ini','.lnk','.url','.txt','.torrent','.md'],
     'PDFs':         ['.pdf']}
 
+
 def CRIAR_DIRETORIOS(diretorio, nome_pasta):
     try:
         if nome_pasta == "":
@@ -26,7 +25,6 @@ def CRIAR_DIRETORIOS(diretorio, nome_pasta):
             os.makedirs(f'{diretorio}\{nome_pasta}') #exist_ok = true
             print(f'>>>: DIRETORIO CRIADO COM SUCESSO       >>> "{nome_pasta}"')
     
-
     except(OSError, FileExistsError):
         if os.path.isdir(diretorio):
             print(f'>>>: O DIRETORIO JÁ EXISTE:             >>>" {diretorio}\{nome_pasta}"')
@@ -39,6 +37,7 @@ def CRIAR_DIRETORIOS(diretorio, nome_pasta):
         #    print(f'>>> O DIRETORIO JÁ EXISTE: "{diretorio_atual}\{nome_pasta}"')
         pass
 
+    
 def REMOVER_DIRETORIO_VAZIO(diretorio):
     PASTAS_LISTA = []
     for diretorios in os.listdir(diretorio):
@@ -51,6 +50,7 @@ def REMOVER_DIRETORIO_VAZIO(diretorio):
             print(f'>>>: A PASTA NÃO ESTA VAZIA, OU NÃO PODE SER MODIFICADA: {diretorio}\{PASTAS_LISTA[i]}')
             i+1
 
+            
 def ORGANIZA_PASTA(diretorio, lista_extensoes, nome_pasta):
     for dados in os.listdir(diretorio):
         filename, file_ext = os.path.splitext(dados.lower()) 
@@ -64,9 +64,11 @@ def ORGANIZA_PASTA(diretorio, lista_extensoes, nome_pasta):
         finally:
             pass
 
+        
 def PRINT_LAYER():
     print('=-='*40)
 
+    
 def PRINT_INFO():
     print('=  1: OBSERVAÇÕES: O PROGRAMA RODA EM MODO DE COMPATIBILIDADE, SENDO ASSIM, TODOS OS ARQUIVOS IRÃO SER MOVIDOS COM\n=     SEUS RESPECTIVOS NOMES EM "CAIXA BAIXA"(EM MINUSCULO). \n=')
     print('=  2: OBSERVAÇÕES: NÃO SERA POSSÍVEL REVERTER AS ALTERAÇÕES APOS A EXECUÇÃO DO PROGRAMA\n=')
@@ -74,15 +76,16 @@ def PRINT_INFO():
     PRINT_LAYER()
     print('\n')
 
+    
 def MODULES_INSTALL():
     try:
         os.system('pip install shutil')
     except:
         pass
 
+    
 def EXEC_PROGRAMA():
     #MODULES_INSTALL()
-
     clear()
     PRINT_LAYER()
     PRINT_INFO()
